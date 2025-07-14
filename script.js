@@ -63,7 +63,7 @@ const perguntarAI = async (question, game, apiKey) => {
 
     ## Exemplo de resposta
     Pergunta do usuário: Qual a melhor composição de agentes para o mapa Ascent?
-    Resposta: A melhor composição atual para Ascent geralmente inclui um controlador (ex: Omen/Astra), dois duelistas (ex: Jett/Raze/Phoenix), um sentinela (ex: Cypher/Killjoy) e um iniciador (ex: Sova/Fade).
+    Resposta: A melhor composição atual para Ascent geralmente inclui:  \n\n **Um controlador** (ex: Omen/Astra) \n\n,  \n\n **Dois duelistas** (ex: Jett/Raze/Phoenix) \n\n,  \n\n **Um sentinela** (ex: Cypher/Killjoy)  \n\n \n\n **Um iniciador** (ex: Sova/Fade).\n\n
 
     ---
     Aqui está a pergunta do usuário: ${question}
@@ -89,10 +89,21 @@ const perguntarAI = async (question, game, apiKey) => {
 
     ## Exemplo de resposta
     Pergunta do usuário: Qual a melhor estratégia para o lado CT na Mirage?
-    Resposta: A melhor estratégia atual para o lado CT na Mirage envolve um forte controle de meio (mid), com smokes e flashes para atrasar avanços inimigos. No bombsite A, defensores agressivos podem segurar o palácio e jungle. No bombsite B, use setups com molotovs e granadas para conter rushes.
+    Resposta: A melhor estratégia atual para o lado CT na Mirage envolve: \n\n  **Um forte controle de meio (mid), com smokes e flashes para atrasar avanços inimigos. No bombsite A, defensores agressivos podem segurar o palácio e jungle. No bombsite B, use setups com molotovs e granadas para conter rushes.**
     ---
     Aqui está a pergunta do usuário: ${question}
   `
+
+    let pergunta = ''
+  if (game == 'lol') {
+    pergunta = perguntaLeague
+
+    } else if (game == 'valorant') {
+    pergunta = perguntaValorant
+
+    } else if (game == 'csgo') {
+    pergunta = perguntaCSGo
+    } 
 
   const contents = [{
     role: "user",
@@ -104,6 +115,8 @@ const perguntarAI = async (question, game, apiKey) => {
 const tools = [{
   google_search: {}
 }]
+
+
 
 //chamada API
 const response = await fetch(geminiURL, {
@@ -130,17 +143,6 @@ const enviarFormulario = async (event) => {
         alert('Por favor, preencha todos os campos')
         return
     }
-
-    let pergunta = ''
-if (game == 'League of Legends') {
-    pergunta = perguntaLeague
-
-} else if (game == 'Valorant') {
-    pergunta = perguntaValorant
-
-} else if (game == 'CS:GO') {
-    pergunta = perguntaCSGo
-}
 
     askButton.disabled = true
     askButton.textContent = 'Perguntando...'
